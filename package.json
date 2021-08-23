@@ -1,0 +1,58 @@
+@@ -1,43 +1,44 @@
+{
+  "name": "wetube",
+  "version": "1.0.0",
+  "description": "The best way to watch videos.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mun-cloud/wetube.git"
+  },
+  "scripts": {
+    "start": "node build/init.js",
+    "build": "npm run build:server && npm run build:assets",
+    "build:server": "babel src -d build",
+    "build:assets": "webpack --mode=production",
+    "dev:server": "nodemon",
+    "dev:assets": "webpack --mode=development -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mun-cloud/wetube-reloaded.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mun-cloud/wetube-reloaded/issues"
+  },
+  "homepage": "https://github.com/Mun-cloud/wetube-reloaded#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "connect-mongo": "^4.4.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-flash": "0.0.2",
+    "express-session": "^1.17.2",
+    "mongoose": "^5.13.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.3",
+    "node": "^14.17.3",
+    "node-fetch": "^2.6.1",
+    "pug": "^3.0.2",
+    "regenerator-runtime": "^0.13.9"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.15.0",
+    "@babel/node": "^7.14.7",
+    "@babel/preset-env": "^7.14.7",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^6.2.0",
+    "mini-css-extract-plugin": "^2.2.0",
+    "nodemon": "^2.0.12",
+    "sass": "^1.37.5",
+    "sass-loader": "^12.1.0",
+    "style-loader": "^3.2.1",
+    "webpack": "^5.50.0",
+    "webpack-cli": "^4.7.2"
+  }
+}
