@@ -58,14 +58,15 @@ export const getUpload = (req, res) => {
 export const postUpload = async (req, res) => {
     const {
         body: {title, description, hashtags},
-        file: { path: fileUrl },
+        file: { video },
         session: { user: {_id}},
     } = req
+    const isHeroku = process.env.NODE_ENV === "production"
     try {
         const newVideo = await Video.create({
           title,
           description,
-          fileUrl: video[0].location,
+          fileUrl: isHeroku ?  video[0].location : video[0].path,
           owner:_id,
           hashtags: Video.formatHashtags(hashtags)
         });
@@ -74,6 +75,7 @@ export const postUpload = async (req, res) => {
         user.save()
         return res.redirect("/");
     } catch (error) {
+        console.log(error)
         return res.status(400).render("upload", {
           pageTitle: "Upload Video",
           errorMessage: error._message,

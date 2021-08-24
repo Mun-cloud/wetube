@@ -142,62 +142,28 @@ export const getEdit = (req, res) => {
     return res.render("edit-profile", {pageTitle: "Edit Profile"})
 }
 export const postEdit = async (req, res) => {
-    const pageTitle = "Edit Profile"
-    const {session: {user: {_id, avatarUrl}},
-        body: {name, email, username, location},
-        file,
-    } = req
-    if (username!==req.session.user.username){
-        const exists = await User.exists({username})
-        if(exists){
-            return res.status(400).render("edit-profile", {
-                pageTitle, 
-                errorMessage:"This username is already taken."
-            })
-        }
-        const updatedUser = await User.findByIdAndUpdate(_id, {
-            avatarUrl:file ? file.location : avatarUrl,
-            name,
-            email,
-            username,
-            location,
-        },
-        {new:true})
-        req.session.user = updatedUser
-        return res.redirect("/users/edit")
-    }
-    if (email!==req.session.user.email){
-        const exists = await User.exists({email})
-        if(exists){
-            return res.status(400).render("edit-profile", {
-                pageTitle, 
-                errorMessage:"This email is already taken."
-            })
-        }
-        const updatedUser = await User.findByIdAndUpdate(_id, {
-            avatarUrl:file ? file.path : avatarUrl,
-            name,
-            email,
-            username,
-            location,
-        },
-        {new:true})
-        req.session.user = updatedUser
-        return res.redirect("/users/edit")
-    }
-    if(email===req.session.user.email && username===req.session.user.username) {
-        const updatedUser = await User.findByIdAndUpdate(_id, {
-            avatarUrl:file ? file.path : avatarUrl,
-            name,
-            email,
-            username,
-            location,
-        },
-        {new:true})
-        req.session.user = updatedUser
-        return res.redirect("/users/edit")
-    }
-}
+    const {
+      session: {
+        user: { _id, avatarUrl },
+      },
+      body: { name, email, username, location },
+      file,
+    } = req;
+    const isHeroku = process.env.NODE_ENV === "production"
+    const updatedUser = await User.findByIdAndUpdate(
+      _id,
+      {
+        avatarUrl: file ? (isHeroku ? file.location : file.path) : avatarUrl,
+        name,
+        email,
+        username,
+        location,
+      },
+      { new: true }
+    );
+    req.session.user = updatedUser;
+    return res.redirect("/users/edit");
+  };
  
 export const getChangePassword = (req, res) => {
     if (req.session.user.socialOnly === true) {
