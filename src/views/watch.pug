@@ -40,6 +40,8 @@ block content
                 li.video__comment
                     i.fas.fa-comment 
                     span #{comment.text}
+                    if String(comment.owner._id) === String(loggedInUser._id)
+                        span ❌
 block scripts 
     script(src="/static/js/videoPlayer.js")
     script(src="/static/js/commentSection.js")
